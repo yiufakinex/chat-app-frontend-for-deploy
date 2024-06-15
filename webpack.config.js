@@ -8,24 +8,10 @@ module.exports = {
     mode: 'production',
     plugins: [
         new HtmlWebpackPlugin({
-            title: 'New User Page',
-            filename: 'newUser.html',
-            template: './public/templates/newUser.html',
-        }),
-        new HtmlWebpackPlugin({
-            title: 'Error Page',
-            filename: 'error.html',
-            template: './public/templates/error.html',
-        }),
-        new HtmlWebpackPlugin({
-            title: 'Login Page',
-            filename: 'login.html',
-            template: './public/templates/login.html',
-        }),
-        new HtmlWebpackPlugin({
-            title: 'Caching',
-            template: './public/templates/index.html',
-        }),
+        title: 'Caching',
+        template: `./public/templates/index.html`,
+        publicPath: '/dist', 
+    })
 
 ],
     module: {
@@ -51,7 +37,6 @@ module.exports = {
         path: path.resolve(__dirname, 'dist'), 
         filename: '[name].[contenthash].js', 
         clean: true, 
-        publicPath: '/', 
       },
     optimization: {
         runtimeChunk: 'single',
