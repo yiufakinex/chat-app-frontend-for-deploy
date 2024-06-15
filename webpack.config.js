@@ -27,10 +27,11 @@ module.exports = {
     },
     resolve: {
         extensions: ['.tsx', '.ts', '.js'],
-    },
-    fallback: {
+        fallback: {
         net: false,
     },
+    },
+    
     output: {
         path: path.resolve(__dirname, 'dist'),
         filename: '[name].[contenthash].js',
