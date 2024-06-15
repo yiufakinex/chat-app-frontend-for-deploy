@@ -10,7 +10,7 @@ module.exports = {
         new HtmlWebpackPlugin({
         title: 'Caching',
         template: `./public/templates/index.html`,
-        publicPath: '/dist', 
+        publicPath: '/', 
     })
 
 ],
