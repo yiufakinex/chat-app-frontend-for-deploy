@@ -4,6 +4,7 @@ import axios, { AxiosError, AxiosResponse } from 'axios';
 import Navbar from './components/Navbar';
 import ChatApp from './components/ChatApp';
 import { User } from './types/User';
+import Login from './components/Login';
 
 const App: React.FC<{}> = () => {
     const [user, setUser] = useState<User | null>(null);
@@ -52,7 +53,7 @@ const App: React.FC<{}> = () => {
             <Navbar loggedIn={loggedIn} />
             <Routes>
                 <Route path="/" element={loggedIn ? <ChatApp user={user} loggedIn={loggedIn} setUser={setUser} /> : <Navigate to="/login" />} />
-                <Route path="/login" element={<h1>Login Page</h1>} />
+                <Route path="/login" element={<Login />} />
                 <Route path="/new_user" element={<h1>New User Page</h1>} />
             </Routes>
         </Router>
