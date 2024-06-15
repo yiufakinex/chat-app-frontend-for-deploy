@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
-import axios, { AxiosResponse } from 'axios';
+import axios, { AxiosError, AxiosResponse } from 'axios';
 import Navbar from './components/Navbar';
 import ChatApp from './components/ChatApp';
 import { User } from './types/User';
@@ -58,5 +58,29 @@ const App: React.FC<{}> = () => {
         </Router>
     );
 };
+
+export const checkRedirect = (res: AxiosResponse): void => {
+
+    if (res.status === 302 || res.request.responseURL.endsWith("/login")) {
+        window.location.href = "/login?error=Session expired, please log back in.";
+    }
+}
+
+export const checkError = (err: AxiosError): void => {
+    const status: number = err.response.status;
+    switch (status) {
+        case 401:
+            window.location.href = "/login?error=Session expired, please log back in.";
+            break;
+        case 406:
+            alert(`Invalid input: ${JSON.stringify((err.response.data as any).reason)}`);
+            break;
+        case 429:
+            alert(`You have been rate limitted: ${JSON.stringify((err.response.data as any).reason)}`);
+            break;
+        default:
+            alert("Server error, please create an GitHub issue if this persists.");
+    }
+}
 
 export default App;

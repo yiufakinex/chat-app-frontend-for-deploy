@@ -11,7 +11,6 @@ module.exports = {
             title: 'Chat App',
             template: './public/index.html',
             filename: 'index.html',
-            publicPath: '/built',
         }),
     ],
     module: {
@@ -36,7 +35,7 @@ module.exports = {
         publicPath: '/built/',
     },
     stats: {
-        errorDetails: true, 
-        children: true,    
+        errorDetails: true,
+        children: true,
     },
 };
