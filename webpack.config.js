@@ -1,23 +1,18 @@
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-const nodeExternals = require('webpack-node-externals');
 
 module.exports = {
     entry: './src/index.tsx',
     devtool: 'source-map',
-    cache: true,
     mode: 'production',
-    plugins: [
-        new HtmlWebpackPlugin({
-            title: 'Chat App',
-            template: './public/templates/index.html',
-        }),
-    ],
+    resolve: {
+        extensions: ['.tsx', '.ts', '.js'],
+    },
     module: {
         rules: [
             {
                 test: /\.tsx?$/,
-                use: 'ts-loader',
+                loader: 'ts-loader',
                 exclude: /node_modules/,
             },
             {
@@ -26,25 +21,18 @@ module.exports = {
             },
         ],
     },
-    resolve: {
-        extensions: ['.tsx', '.ts', '.js'],
-    },
+    plugins: [
+        new HtmlWebpackPlugin({
+            title: 'Chat App',
+            template: './public/templates/index.html', 
+        }),
+    ],
     output: {
         path: path.resolve(__dirname, 'dist'),
         filename: '[name].[contenthash].js',
-        publicPath: '/',
+        publicPath: '/', 
     },
-    stats: {
-        errorDetails: true,
-        children: true,
+    optimization: {
+        minimize: true,
     },
-    externals: [
-        nodeExternals(),
-        function ({ context, request }, callback) {
-            if (/^stompjs/.test(request)) {
-                return callback(null, `commonjs ${request}`);
-            }
-            callback();
-        },
-    ],
 };
