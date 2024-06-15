@@ -35,4 +35,8 @@ module.exports = {
         filename: '[name].[contenthash].js',
         publicPath: '/built/',
     },
+    stats: {
+        errorDetails: true, 
+        children: true,    
+    },
 };
