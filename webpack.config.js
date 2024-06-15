@@ -5,12 +5,11 @@ module.exports = {
     entry: './src/index.tsx',
     devtool: 'source-map',
     cache: true,
-    mode: 'production', //'development',//'production',
+    mode: 'production',
     plugins: [
         new HtmlWebpackPlugin({
         title: 'Caching',
         template: `./public/templates/index.html`,
-        publicPath: "/built"
     })],
     module: {
         rules: [
@@ -32,9 +31,10 @@ module.exports = {
         }
     },
     output: {
-        path: path.resolve(__dirname, 'dist'), // Output directory
-        filename: '[name].[contenthash].js', // Output filename
-        clean: true // Clean the output directory before each build
+        path: path.resolve(__dirname, 'dist'), 
+        filename: '[name].[contenthash].js', 
+        clean: true, 
+        publicPath: '/', 
       },
     optimization: {
         runtimeChunk: 'single',
