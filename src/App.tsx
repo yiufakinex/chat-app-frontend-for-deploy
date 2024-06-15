@@ -1,19 +1,18 @@
 import React, { useState, useEffect } from 'react';
-import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import axios, { AxiosError, AxiosResponse } from 'axios';
 import Navbar from './components/Navbar';
 import ChatApp from './components/ChatApp';
 import { User } from './types/User';
-import Login from './components/Login';
 
-const App: React.FC<{}> = () => {
-    const [user, setUser] = useState<User | null>(null);
+
+export const App: React.FC<{}> = () => {
+
+    const [user, setUser] = useState<User>();
     const [loggedIn, setLoggedIn] = useState<boolean>(false);
-    const [loading, setLoading] = useState<boolean>(true);
 
     useEffect(() => {
         getUser();
-    }, []);
+    }, [])
 
     const getUser = () => {
         axios
@@ -33,35 +32,24 @@ const App: React.FC<{}> = () => {
             .catch(() => {
                 loggedOut();
                 alert("Error in login, refresh.");
-            })
-            .finally(() => {
-                setLoading(false);
             });
-    };
-
-    const loggedOut = () => {
-        setUser(null);
-        setLoggedIn(false);
-    };
-
-    if (loading) {
-        return <div>Loading...</div>;
+        const loggedOut = () => {
+            setUser(null);
+            setLoggedIn(false);
+        }
     }
 
     return (
-        <Router>
+        <>
             <Navbar loggedIn={loggedIn} />
-            <Routes>
-                <Route path="/" element={loggedIn ? <ChatApp user={user} loggedIn={loggedIn} setUser={setUser} /> : <Navigate to="/login" />} />
-                <Route path="/login" element={<Login />} />
-                <Route path="/new_user" element={<h1>New User Page</h1>} />
-            </Routes>
-        </Router>
-    );
-};
+            <ChatApp user={user} loggedIn={loggedIn} setUser={setUser} />
+        </>
+    )
+
+}
 
 export const checkRedirect = (res: AxiosResponse): void => {
-
+    // hacky solution but axios has no better API for this.
     if (res.status === 302 || res.request.responseURL.endsWith("/login")) {
         window.location.href = "/login?error=Session expired, please log back in.";
     }
@@ -83,5 +71,3 @@ export const checkError = (err: AxiosError): void => {
             alert("Server error, please create an GitHub issue if this persists.");
     }
 }
-
-export default App;
