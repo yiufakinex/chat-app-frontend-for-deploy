@@ -12,6 +12,7 @@ module.exports = {
         new HtmlWebpackPlugin({
             title: 'Chat App',
             template: './public/templates/index.html',
+            publicPath: '/dist/',
         }),
     ],
     module: {
@@ -33,7 +34,7 @@ module.exports = {
     output: {
         path: path.resolve(__dirname, 'dist'),
         filename: '[name].[contenthash].js',
-        publicPath: '/dist/',
+        
     },
     stats: {
         errorDetails: true,
