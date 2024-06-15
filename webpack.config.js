@@ -8,9 +8,23 @@ module.exports = {
     mode: 'production',
     plugins: [
         new HtmlWebpackPlugin({
-        title: 'Caching',
-        template: `./public/templates/index.html`,
-    })],
+            title: 'New User Page',
+            template: './public/templates/newUser.html',
+        }),
+        new HtmlWebpackPlugin({
+            title: 'Error Page',
+            template: './public/templates/error.html',
+        }),
+        new HtmlWebpackPlugin({
+            title: 'Login Page',
+            template: './public/templates/login.html',
+        }),
+        new HtmlWebpackPlugin({
+            title: 'Caching',
+            template: './public/templates/index.html',
+        }),
+
+],
     module: {
         rules: [
             {
