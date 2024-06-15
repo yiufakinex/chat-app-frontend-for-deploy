@@ -8,46 +8,31 @@ module.exports = {
     mode: 'production',
     plugins: [
         new HtmlWebpackPlugin({
-        title: 'Caching',
-        template: `./public/templates/index.html`,
-        publicPath: '/', 
-    })
-
-],
+            title: 'Chat App',
+            template: './public/index.html',
+            filename: 'index.html',
+            publicPath: '/built',
+        }),
+    ],
     module: {
         rules: [
             {
                 test: /\.tsx?$/,
                 use: 'ts-loader',
-                exclude: /node_modules/
+                exclude: /node_modules/,
             },
             {
                 test: /\.css$/i,
-                use: ["style-loader", "css-loader"]
-            }
-        ]
+                use: ['style-loader', 'css-loader'],
+            },
+        ],
     },
     resolve: {
         extensions: ['.tsx', '.ts', '.js'],
-        fallback: {
-            net: false
-        }
     },
     output: {
-        path: path.resolve(__dirname, 'dist'), 
-        filename: '[name].[contenthash].js', 
-        clean: true, 
-      },
-    optimization: {
-        runtimeChunk: 'single',
-        splitChunks: {
-            cacheGroups: {
-                vendor: {
-                    test: /[\\/]node_modules[\\/]/,
-                    name: 'vendors',
-                    chunks: 'all',
-                },
-            },
-        },
-    }
+        path: path.resolve(__dirname, 'dist'),
+        filename: '[name].[contenthash].js',
+        publicPath: '/built/',
+    },
 };
