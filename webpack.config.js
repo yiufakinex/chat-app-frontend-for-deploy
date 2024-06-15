@@ -1,6 +1,5 @@
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-const nodeExternals = require('webpack-node-externals');
 
 module.exports = {
     entry: './src/index.tsx',
@@ -28,6 +27,9 @@ module.exports = {
     },
     resolve: {
         extensions: ['.tsx', '.ts', '.js'],
+    },
+    fallback: {
+        net: false,
     },
     output: {
         path: path.resolve(__dirname, 'dist'),
