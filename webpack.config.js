@@ -1,13 +1,11 @@
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-const nodeExternals = require('webpack-node-externals');
 
 module.exports = {
     entry: './src/index.tsx',
     devtool: 'source-map',
     cache: true,
     mode: 'production',
-    externals: [nodeExternals()],
     plugins: [
         new HtmlWebpackPlugin({
             title: 'Chat App',
