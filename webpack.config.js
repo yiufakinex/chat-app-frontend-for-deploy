@@ -12,7 +12,7 @@ module.exports = {
         new HtmlWebpackPlugin({
             title: 'Chat App',
             template: './public/templates/index.html',
-            publicPath: '/dist/',
+            publicPath: '/',
         }),
     ],
     module: {
