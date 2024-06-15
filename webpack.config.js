@@ -39,5 +39,4 @@ module.exports = {
         errorDetails: true,
         children: true,
     },
-    externals: [nodeExternals()],
 };
