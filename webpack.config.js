@@ -30,10 +30,11 @@ module.exports = {
         extensions: ['.tsx', '.ts', '.js'],
     },
     output: {
-        path: path.resolve(__dirname, 'dist'), 
-        filename: '[name].[contenthash].js', 
-        publicPath: '/', // Adjust based on your deployment environment
-    },
+        path: path.resolve(__dirname, 'dist'),
+        filename: '[name].[contenthash].js',
+        publicPath: '/', 
+      },
+      
     stats: {
         errorDetails: true,
         children: true,
