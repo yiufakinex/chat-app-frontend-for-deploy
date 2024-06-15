@@ -1,18 +1,18 @@
-import React, { useState, useEffect } from 'react';
-import axios, { AxiosError, AxiosResponse } from 'axios';
+import React from 'react';
+import ReactDOM from 'react-dom';
+import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom';
 import Navbar from './components/Navbar';
 import ChatApp from './components/ChatApp';
+import axios, { AxiosError, AxiosResponse } from 'axios';
 import { User } from './types/User';
 
+const App: React.FC = () => {
+    const [user, setUser] = React.useState<User | null>(null);
+    const [loggedIn, setLoggedIn] = React.useState<boolean>(false);
 
-export const App: React.FC<{}> = () => {
-
-    const [user, setUser] = useState<User>();
-    const [loggedIn, setLoggedIn] = useState<boolean>(false);
-
-    useEffect(() => {
+    React.useEffect(() => {
         getUser();
-    }, [])
+    }, []);
 
     const getUser = () => {
         axios
@@ -22,8 +22,7 @@ export const App: React.FC<{}> = () => {
                 if (data.newUser) {
                     window.location.href = "/new_user";
                 } else if (data.loggedIn) {
-                    const user: User = data.user;
-                    setUser(user);
+                    setUser(data.user);
                     setLoggedIn(true);
                 } else {
                     loggedOut();
@@ -33,20 +32,25 @@ export const App: React.FC<{}> = () => {
                 loggedOut();
                 alert("Error in login, refresh.");
             });
-        const loggedOut = () => {
-            setUser(null);
-            setLoggedIn(false);
-        }
-    }
+    };
+
+    const loggedOut = () => {
+        setUser(null);
+        setLoggedIn(false);
+    };
 
     return (
-        <>
+        <Router>
             <Navbar loggedIn={loggedIn} />
-            <ChatApp user={user} loggedIn={loggedIn} setUser={setUser} />
-        </>
-    )
-
-}
+            <Routes>
+                <Route path="/" element={loggedIn ? <ChatApp user={user} loggedIn={loggedIn} setUser={setUser} /> : <Navigate to="/login" />} />
+                <Route path="/login" element={<div dangerouslySetInnerHTML={{ __html: require('../public/templates/login.html').default }} />} />
+                <Route path="/new_user" element={<div dangerouslySetInnerHTML={{ __html: require('../public/templates/newUser.html').default }} />} />
+                <Route path="*" element={<div dangerouslySetInnerHTML={{ __html: require('../public/templates/error.html').default }} />} />
+            </Routes>
+        </Router>
+    );
+};
 
 export const checkRedirect = (res: AxiosResponse): void => {
     // hacky solution but axios has no better API for this.
@@ -71,3 +75,5 @@ export const checkError = (err: AxiosError): void => {
             alert("Server error, please create an GitHub issue if this persists.");
     }
 }
+
+export default App;
