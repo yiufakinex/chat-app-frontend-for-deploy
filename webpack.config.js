@@ -1,5 +1,6 @@
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const webpack = require('webpack');
 
 module.exports = {
@@ -7,6 +8,7 @@ module.exports = {
     devtool: 'source-map',
     mode: 'production',
     plugins: [
+        new CleanWebpackPlugin(),
         new HtmlWebpackPlugin({
             title: 'Chat App',
             template: './public/templates/index.html',
@@ -30,6 +32,9 @@ module.exports = {
         new webpack.ProvidePlugin({
             process: 'process/browser',
         }),
+        new webpack.DefinePlugin({
+            'process.env.API_URL': JSON.stringify(process.env.API_URL)
+        }),
     ],
     module: {
         rules: [
@@ -40,10 +45,10 @@ module.exports = {
             },
             {
                 test: /\.css$/i,
-                use: ['style-loader', 'css-loader'],
+                use: ['style-loader', 'css.xml-loader'],
             },
             {
-                test: /\.html$/,
+            test: /\.html$/,
                 use: 'html-loader',
             },
         ],
@@ -58,7 +63,7 @@ module.exports = {
         },
     },
     output: {
-        path: path.resolve(__dirname, 'dist'),
+            path: path.resolve(__dirname, 'dist'),
         filename: '[name].[contenthash].js',
         publicPath: '/',
     },
