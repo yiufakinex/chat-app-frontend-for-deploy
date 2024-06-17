@@ -35,6 +35,9 @@ module.exports = {
         new webpack.DefinePlugin({
             'process.env.API_URL': JSON.stringify(process.env.API_URL)
         }),
+        new webpack.ProvidePlugin({
+            process: 'process/browser',
+          }),
     ],
     module: {
         rules: [

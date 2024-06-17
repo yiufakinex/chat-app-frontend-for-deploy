@@ -3,6 +3,7 @@ secrets.production.properties
 /built/
 **/node_modules
 **/static/built
+.env
 
 HELP.md
 target/
