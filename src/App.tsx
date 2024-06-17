@@ -12,6 +12,7 @@ const App = () => {
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
+        console.log('API Base URL:', process.env.REACT_APP_API_BASE_URL);
         getUser();
     }, []);
 
@@ -20,7 +21,6 @@ const App = () => {
             .then(response => {
                 const { data } = response;
                 if (data.newUser) {
-
                     window.location.href = `${process.env.REACT_APP_API_BASE_URL}/new_user`;
                 } else if (data.loggedIn) {
                     setUser(data.user);
