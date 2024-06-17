@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import ReactDOM from 'react-dom';
 import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom';
 import Navbar from './components/Navbar';
@@ -6,37 +6,32 @@ import ChatApp from './components/ChatApp';
 import axios, { AxiosError, AxiosResponse } from 'axios';
 import { User } from './types/User';
 
-const App: React.FC = () => {
-    const [user, setUser] = React.useState<User | null>(null);
-    const [loggedIn, setLoggedIn] = React.useState<boolean>(false);
+const App = () => {
+    const [user, setUser] = useState(null);
+    const [loggedIn, setLoggedIn] = useState(false);
+    const [loading, setLoading] = useState(true);
 
-    React.useEffect(() => {
+    useEffect(() => {
         getUser();
     }, []);
 
     const getUser = () => {
-        axios
-            .get('/api/login/user')
-            .then((res: AxiosResponse) => {
-                const data = res.data;
+        axios.get(`${process.env.REACT_APP_API_BASE_URL}/api/login/user`)
+            .then(response => {
+                const { data } = response;
                 if (data.newUser) {
-                    window.location.href = "/new_user";
+
+                    window.location.href = `${process.env.REACT_APP_API_BASE_URL}/new_user`;
                 } else if (data.loggedIn) {
                     setUser(data.user);
                     setLoggedIn(true);
-                } else {
-                    loggedOut();
                 }
+                setLoading(false);
             })
-            .catch(() => {
-                loggedOut();
-                alert("Error in login, refresh.");
+            .catch(error => {
+                console.error('Login error:', error);
+                setLoading(false);
             });
-    };
-
-    const loggedOut = () => {
-        setUser(null);
-        setLoggedIn(false);
     };
 
     return (
@@ -53,7 +48,7 @@ const App: React.FC = () => {
 };
 
 export const checkRedirect = (res: AxiosResponse): void => {
-    // hacky solution but axios has no better API for this.
+
     if (res.status === 302 || res.request.responseURL.endsWith("/login")) {
         window.location.href = "/login?error=Session expired, please log back in.";
     }
