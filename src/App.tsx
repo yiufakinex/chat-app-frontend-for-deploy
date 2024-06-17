@@ -12,16 +12,18 @@ const App = () => {
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
+        console.log('Environment:', process.env);
         console.log('API Base URL:', process.env.REACT_APP_API_BASE_URL);
         getUser();
     }, []);
 
     const getUser = () => {
-        axios.get(`${process.env.REACT_APP_API_BASE_URL}/api/login/user`)
+        const apiUrl = process.env.REACT_APP_API_BASE_URL || 'https://chat-app-backend-for-deploy-6vr4.onrender.com';
+        axios.get(`${apiUrl}/api/login/user`)
             .then(response => {
                 const { data } = response;
                 if (data.newUser) {
-                    window.location.href = `${process.env.REACT_APP_API_BASE_URL}/new_user`;
+                    window.location.href = `${apiUrl}/new_user`;
                 } else if (data.loggedIn) {
                     setUser(data.user);
                     setLoggedIn(true);
